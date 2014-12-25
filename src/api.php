@@ -3,10 +3,12 @@
 // VelibStationsLocator //
 /////////////////////////
 
-//DB
-$dns = 'mysql:host=XXX;dbname=XXX';
-$user = 'XXX';
-$pass = 'XXX';
+//DB configuration
+//conf.php must contain the following variables
+//$dns = 'mysql:host=XXX;dbname=XXX';
+//$user = 'XXX';
+//$pass = 'XXX';
+require_once('conf.php');
 
 try{
     $db = new PDO( $dns, $user, $pass );
