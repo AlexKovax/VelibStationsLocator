@@ -13,7 +13,14 @@ This "API" is basically just a wrapper for a MySQL query that is using the Haver
 
 ## Installation
 
-You need to inject the sql dump from the sql/ directory in a database and replace the XXX in the php script to your installation parameters.
+You need to inject the sql dump from the sql/ directory in a database and create a conf.php file that must contain the following info :
+
+$dns = 'mysql:host=localhost;dbname=XXX';
+$user = 'YYY';
+$pass = 'ZZZ';
+$jcdApiKey = 'APIKEY';
+
+The three first variables are used for the PDO connection to the database and the last is the API key to connect to the JCDecaux API that will give you access to the stations availability infos (more details on https://developer.jcdecaux.com)
 
 ## Usage & calls
 
@@ -26,3 +33,7 @@ Ex: http://api.kovaxlabs.com/velib/api.php?position=48.9,2.37&limit=5&distance=1
 ## Data
 
 The data come from JCDecaux official website (https://developer.jcdecaux.com/#/opendata/vls?page=static), I did correct the errors contained in the CSV file and will most likely clean the capitalization soon because it annoys me.
+
+## En français...
+
+Cet script PHP vous permet de créer très simplement une API de géolocalisation de stations de Velib. Il suffit de l'appeler avec les coordonnées d'une position pour qu'elle vous renvoie les stations les plus proches. Elle nécessite d'importer dans une base de données les infos des stations. Ensuite c'est l'API JCDecaux qui donne accès aux données temps réels d'occupation de la station. Vous devez donc créer une clé d'API sur le site de JCDecaux pour cela.
