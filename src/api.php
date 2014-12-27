@@ -34,7 +34,7 @@ if(isset($_GET['position']) && $_GET['position']!= ""){
 
         //Query using Haversine formula to calculate the distance
         //Todo: use the geo functions of Mysql5.6 to achieve the same
-        $query = "SELECT id, ( 6371 * acos( cos( radians({$lat}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians({$lng}) ) + sin( radians({$lat}) ) * sin( radians( latitude ) ) ) ) AS distance FROM stations HAVING distance < {$maxDistance} ORDER BY distance LIMIT 0 , {$limit}";
+        $query = "SELECT id, name, address, ( 6371 * acos( cos( radians({$lat}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians({$lng}) ) + sin( radians({$lat}) ) * sin( radians( latitude ) ) ) ) AS distance FROM stations HAVING distance < {$maxDistance} ORDER BY distance LIMIT 0 , {$limit}";
 
         $select = $db->query($query);
         $tabRes = $select->fetchAll(PDO::FETCH_ASSOC);
@@ -46,6 +46,8 @@ if(isset($_GET['position']) && $_GET['position']!= ""){
           $id = $station["id"];
           $query = "https://api.jcdecaux.com/vls/v1/stations/{$id}?contract={$contract}&apiKey={$jcdApiKey}";
           $data = json_decode(file_get_contents($query),true);//Warning: JCDecaux API can be slow to answer
+          unset($data['name']);//We use the name from our database for clean caps
+          unset($data['address']);//Same
           $tabReturn[] = array_merge($station,$data);
         }
 
